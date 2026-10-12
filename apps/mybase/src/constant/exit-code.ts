@@ -5,6 +5,6 @@ export const ExitCode = async (error: unknown): Promise<void> => {
     console.log("\nfinish process");
     process.exitCode = 130;
   } else {
-    consola.error(error);
+    consola.error(`\n${error}`);
   }
 };
