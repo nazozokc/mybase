@@ -3,6 +3,7 @@ import { writeTask } from "../../task/writeTask.ts";
 import { TaskTagSave, type TagType } from "../../task/tags/TaskTagSave.ts";
 import { TaskTagRead } from "../../task/tags/TaskTagRead.ts";
 import type { Task, TaskCreate } from "../../task/type.ts";
+import { ExitCode } from "../../constant/exit-code.ts";
 
 const controller = new AbortController();
 
@@ -12,41 +13,47 @@ process.on("SIGINT", () => {
 });
 
 export const tagAction = async (tagArg?: TagType): Promise<TagType> => {
-  if (tagArg !== undefined) {
-    await TaskTagSave(tagArg);
-    return tagArg;
-  } else {
-    const action = await select({
-      message: "create or select?",
-      choices: ["create", "select"],
-    });
-
-    const tags: TagType = [];
-
-    if (action === "create") {
-      const tag = await input({
-        message: "create and select tags",
+  try {
+    if (tagArg !== undefined) {
+      await TaskTagSave(tagArg);
+      return tagArg;
+    } else {
+      const action = await select({
+        message: "create or select?",
+        choices: ["create", "select"],
       });
 
-      const splitTags = tag.split(",").map((tag) => tag.trim());
+      const tags: TagType = [];
 
-      await TaskTagSave(splitTags);
+      if (action === "create") {
+        const tag = await input({
+          message: "create and select tags",
+        });
 
-      tags.push(...splitTags);
+        const splitTags = tag.split(",").map((tag) => tag.trim());
+
+        await TaskTagSave(splitTags);
+
+        tags.push(...splitTags);
+      }
+
+      if (action === "select") {
+        const availableTags = await TaskTagRead();
+
+        const selectedTags = await checkbox({
+          message: "select tags",
+          choices: availableTags,
+        });
+
+        tags.push(...selectedTags);
+      }
+
+      return tags;
     }
+  } catch (error) {
+    ExitCode(error);
 
-    if (action === "select") {
-      const availableTags = await TaskTagRead();
-
-      const selectedTags = await checkbox({
-        message: "select tags",
-        choices: availableTags,
-      });
-
-      tags.push(...selectedTags);
-    }
-
-    return tags;
+    throw error;
   }
 };
 
@@ -58,62 +65,67 @@ export const add = async (
   tagArg?: TagType,
   statusArg?: Task["status"],
 ): Promise<void> => {
-  const title =
-    titleArg ??
-    (await input({
-      message: "task title",
-    }));
+  try {
+    const title =
+      titleArg ??
+      (await input({
+        message: "task title",
+      }));
 
-  const detail =
-    detailArg?.padStart(2, "0") ??
-    (await input({
-      message: "task detail",
-    }));
+    const detail =
+      detailArg?.padStart(2, "0") ??
+      (await input({
+        message: "task detail",
+      }));
 
-  const now = new Date();
-  const getDate = String(now.getDate()).padStart(2, "0");
+    const now = new Date();
+    const getDate = String(now.getDate()).padStart(2, "0");
 
-  const dueDate =
-    dueDateArg ??
-    (await input({
-      message: "goal date",
-      default: `${now.getFullYear()}-${now.getMonth() + 1}-${getDate}`,
-    }));
+    const dueDate =
+      dueDateArg ??
+      (await input({
+        message: "goal date",
+        default: `${now.getFullYear()}-${now.getMonth() + 1}-${getDate}`,
+      }));
 
-  const priority =
-    priorityArg ??
-    (await select({
-      message: "Select priority",
-      choices: [
-        { name: "Low", value: "Low" },
-        { name: "Medium", value: "Medium" },
-        { name: "High", value: "High" },
-        { name: "Extra High", value: "Extra-high" },
-      ],
-    }));
+    const priority =
+      priorityArg ??
+      (await select({
+        message: "Select priority",
+        choices: [
+          { name: "Low", value: "Low" },
+          { name: "Medium", value: "Medium" },
+          { name: "High", value: "High" },
+          { name: "Extra High", value: "Extra-high" },
+        ],
+      }));
 
-  const tag = await tagAction(tagArg);
+    const tag = await tagAction(tagArg);
 
-  const status =
-    statusArg ??
-    (await select({
-      message: "Select status",
-      choices: [
-        { name: "To Do", value: "Todo" },
-        { name: "Pending", value: "Pending" },
-        { name: "In Progress", value: "In-Progress" },
-        { name: "Done", value: "Done" },
-      ],
-    }));
+    const status =
+      statusArg ??
+      (await select({
+        message: "Select status",
+        choices: [
+          { name: "To Do", value: "Todo" },
+          { name: "Pending", value: "Pending" },
+          { name: "In Progress", value: "In-Progress" },
+          { name: "Done", value: "Done" },
+        ],
+      }));
 
-  const task: TaskCreate = {
-    title,
-    detail,
-    dueDate,
-    priority,
-    tag,
-    status,
-  };
+    const task: TaskCreate = {
+      title,
+      detail,
+      dueDate,
+      priority,
+      tag,
+      status,
+    };
 
-  await writeTask(task);
+    await writeTask(task);
+  } catch (error) {
+    ExitCode(error);
+    throw error;
+  }
 };

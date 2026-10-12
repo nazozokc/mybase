@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { getTaskDir } from "../../constant/app.ts";
 import { deleteTask } from "../../task/deleteTask.ts";
 import { readTask } from "../../task/readTask.ts";
+import { ExitCode } from "../../constant/exit-code.ts";
 
 export const del = async (): Promise<void> => {
   try {
@@ -35,6 +36,7 @@ export const del = async (): Promise<void> => {
       }
     }
   } catch (error) {
-    consola.error(error);
+    ExitCode(error);
+    throw error;
   }
 };
