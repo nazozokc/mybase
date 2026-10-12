@@ -10,6 +10,12 @@ import { calendarCommand } from "./commands/calendar/index.ts";
 import { initCommand } from "./commands/init/index.ts";
 import { version } from "./version.ts";
 import { CLI_COMMAND_NAME } from "./constant/app.ts";
+import { consola } from "consola";
+
+process.on("SIGINT", () => {
+  consola.info("finish process");
+  process.exit(130);
+});
 
 const mainCommand = define({
   name: CLI_COMMAND_NAME,
