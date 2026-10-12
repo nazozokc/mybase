@@ -35,7 +35,6 @@ export const writeTask = async (task: TaskCreate): Promise<void> => {
     await writeFile(tmpPath, taskJson, "utf-8");
     await rename(tmpPath, filePath);
   } catch (error) {
-    consola.error(error);
-    return;
+    throw error;
   }
 };

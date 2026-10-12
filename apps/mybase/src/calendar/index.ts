@@ -1,6 +1,7 @@
 import Table from "cli-table3";
 import { consola } from "consola";
 import { displayTasksForMonth } from "./displaytask.ts";
+import { ExitCode } from "../constant/exit-code.ts";
 
 export const calendar = async (
   year?: number,
@@ -53,6 +54,6 @@ export const calendar = async (
 
     await displayTasksForMonth(String(displayYear), String(displayMonth));
   } catch (error) {
-    consola.error(error);
+    ExitCode(error);
   }
 };

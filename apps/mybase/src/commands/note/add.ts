@@ -6,6 +6,7 @@ import { getNoteDir } from "../../constant/app.ts";
 import { mkdir } from "node:fs/promises";
 import consola from "consola";
 import { bookSave } from "../../note/book/bookSave.ts";
+import { ExitCode } from "../../constant/exit-code.ts";
 
 export const add = async (): Promise<void> => {
   try {
@@ -45,6 +46,6 @@ export const add = async (): Promise<void> => {
 
     await addNote(filename, selected);
   } catch (error) {
-    consola.error(error);
+    ExitCode(error);
   }
 };

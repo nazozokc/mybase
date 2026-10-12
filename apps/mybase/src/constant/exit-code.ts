@@ -1,10 +1,10 @@
 import { consola } from "consola";
 
-export const ExitCode = async (error: unknown): Promise<void> => {
+export const ExitCode = (error: unknown): never => {
   if (error instanceof Error && error.name === "ExitPromptError") {
-    console.log("\nfinish process");
+    consola.info("\nfinish process");
     process.exitCode = 130;
-  } else {
-    consola.error(`\n${error}`);
   }
+
+  throw error;
 };

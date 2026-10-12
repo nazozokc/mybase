@@ -4,6 +4,7 @@ import { getNoteDir } from "../../constant/app.ts";
 import { readdir } from "node:fs/promises";
 import { consola } from "consola";
 import { join } from "node:path";
+import { ExitCode } from "../../constant/exit-code.ts";
 
 export const del = async (): Promise<void> => {
   try {
@@ -42,6 +43,6 @@ export const del = async (): Promise<void> => {
       await deleteNote(file, selectedBooks);
     }
   } catch (error) {
-    consola.error(error);
+    ExitCode(error);
   }
 };

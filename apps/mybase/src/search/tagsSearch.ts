@@ -1,10 +1,11 @@
 import { getTaskDir, getNoteDir } from "../constant/app.ts";
-import { MarkdownMetaSchema, type MarkdownMeta } from "../note/type.ts";
+import { MarkdownMetaSchema } from "../note/type.ts";
 import { readFile, readdir } from "node:fs/promises";
 import { join } from "path";
 import { consola } from "consola";
 import matter from "gray-matter";
 import { TaskSchema } from "../task/type.ts";
+import { ExitCode } from "../constant/exit-code.ts";
 
 export const searchTags = async (tagName: string): Promise<void> => {
   const taskDir = await getTaskDir();
@@ -60,7 +61,6 @@ export const searchTags = async (tagName: string): Promise<void> => {
       }
     }
   } catch (error) {
-    consola.error("No note files");
-    consola.error(error);
+    ExitCode(error);
   }
 };

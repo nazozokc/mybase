@@ -24,6 +24,6 @@ export const NoteTagSave = async (tags: NoteTagType): Promise<void> => {
 
     await writeFile(`${rootDir}/tags.json`, tagsJson, "utf-8");
   } catch (error) {
-    consola.error(error);
+    throw error;
   }
 };

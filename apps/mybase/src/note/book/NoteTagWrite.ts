@@ -13,6 +13,6 @@ export const NoteTagWrite = async (tags: NoteTagType): Promise<void> => {
     await writeFile(tmpPath, tagsJson, "utf-8");
     await rename(tmpPath, filePath);
   } catch (error) {
-    consola.error(error);
+    throw error;
   }
 };

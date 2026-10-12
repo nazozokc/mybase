@@ -37,7 +37,6 @@ export const readTask = async (): Promise<Task[]> => {
   try {
     return tasks;
   } catch (error) {
-    consola.error("Unexpected error");
     throw error;
   }
 };

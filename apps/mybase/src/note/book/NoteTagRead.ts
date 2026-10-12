@@ -17,11 +17,6 @@ export const NoteTagRead = async (): Promise<NoteTagType> => {
 
     return result.data as NoteTagType;
   } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-      return [];
-    }
-
-    consola.error(error);
-    return [];
+    throw error;
   }
 };

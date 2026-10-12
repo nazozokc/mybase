@@ -27,6 +27,6 @@ export const bookSave = async (filename: string): Promise<void> => {
     await writeFile(tmpPath, JSON.stringify(books, null, 2), "utf-8");
     await rename(tmpPath, FilePath);
   } catch (error) {
-    consola.error(error);
+    throw error;
   }
 };
