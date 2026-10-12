@@ -3,7 +3,6 @@ import { writeTask } from "../../task/writeTask.ts";
 import { TaskTagSave, type TagType } from "../../task/tags/TaskTagSave.ts";
 import { TaskTagRead } from "../../task/tags/TaskTagRead.ts";
 import type { Task, TaskCreate } from "../../task/type.ts";
-import { consola } from "consola";
 
 const controller = new AbortController();
 
