@@ -4,6 +4,8 @@ import { TaskTagSave, type TagType } from "../../task/tags/TaskTagSave.ts";
 import { TaskTagRead } from "../../task/tags/TaskTagRead.ts";
 import type { Task, TaskCreate } from "../../task/type.ts";
 import { ExitCode } from "../../constant/exit-code.ts";
+import { priorityPrompt } from "../../constant/priority-prompt.ts";
+import { statusprompt } from "../../constant/status-prompt.ts";
 
 const controller = new AbortController();
 
@@ -88,31 +90,11 @@ export const add = async (
         default: `${now.getFullYear()}-${now.getMonth() + 1}-${getDate}`,
       }));
 
-    const priority =
-      priorityArg ??
-      (await select({
-        message: "Select priority",
-        choices: [
-          { name: "Low", value: "Low" },
-          { name: "Medium", value: "Medium" },
-          { name: "High", value: "High" },
-          { name: "Extra High", value: "Extra-high" },
-        ],
-      }));
+    const priority = priorityArg ?? (await priorityPrompt());
 
     const tag = await tagAction(tagArg);
 
-    const status =
-      statusArg ??
-      (await select({
-        message: "Select status",
-        choices: [
-          { name: "To Do", value: "Todo" },
-          { name: "Pending", value: "Pending" },
-          { name: "In Progress", value: "In-Progress" },
-          { name: "Done", value: "Done" },
-        ],
-      }));
+    const status = statusArg ?? (await statusprompt());
 
     const task: TaskCreate = {
       title,

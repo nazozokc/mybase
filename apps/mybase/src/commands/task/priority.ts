@@ -2,21 +2,13 @@ import { select } from "@inquirer/prompts";
 import { readTask } from "../../task/readTask.ts";
 import { displayTaskTable } from "../../task/table.ts";
 import { ExitCode } from "../../constant/exit-code.ts";
+import { priorityPrompt } from "../../constant/priority-prompt.ts";
 
 export const priority = async (): Promise<void> => {
   try {
     const task = await readTask();
 
-    const selected = await select({
-      message: "Select priority",
-      choices: [
-        { name: "Low", value: "Low" },
-        { name: "Medium", value: "Medium" },
-        { name: "High", value: "High" },
-        { name: "Extra High", value: "Extra-high" },
-      ],
-    });
-
+    const selected = await priorityPrompt();
     const filter = task.filter((task) => task.priority === selected);
 
     await displayTaskTable(filter);
