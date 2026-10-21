@@ -19,7 +19,7 @@ export const addNote = async (
   });
 
   try {
-    await writeFile(path, md, { flag: "wx" });
+    await writeFile(path, md, "utf-8");
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== "EEXIST") {
       throw error;

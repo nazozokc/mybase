@@ -75,7 +75,7 @@ export const add = async (
       }));
 
     const detail =
-      detailArg?.padStart(2, "0") ??
+      detailArg ??
       (await input({
         message: "task detail",
       }));
