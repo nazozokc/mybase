@@ -59,8 +59,9 @@ export const taskCommand: Command = {
 
       run: (ctx) => {
         const { title, detail, dueDate, priority, tag, status } = ctx.values;
+        const tagsplit = tag.split(",");
 
-        add(title, detail, dueDate, priority, tag, status);
+        add(title, detail, dueDate, priority, tagsplit, status);
       },
     },
 
