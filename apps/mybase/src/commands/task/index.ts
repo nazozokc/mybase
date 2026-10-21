@@ -21,37 +21,37 @@ export const taskCommand: Command = {
       args: {
         title: {
           type: "string",
-          short: "t",
+          short: "tt",
           description: "Task title",
           required: false,
         },
         detail: {
           type: "string",
-          short: "t",
+          short: "dt",
           description: "Task Detail",
           required: false,
         },
         dueDate: {
           type: "string",
-          short: "d",
+          short: "da",
           description: "Task DueDate",
           required: false,
         },
         priority: {
           type: "string",
-          short: "d",
+          short: "p",
           description: "Task priority",
           required: false,
         },
         tag: {
           type: "string[]",
-          short: "d",
+          short: "t",
           description: "Task tag",
           required: false,
         },
         status: {
           type: "string",
-          short: "d",
+          short: "s",
           description: "Task tag",
           required: false,
         },
