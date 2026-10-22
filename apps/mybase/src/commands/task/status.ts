@@ -1,13 +1,13 @@
 import { readTask } from "../../task/readTask.ts";
 import { displayTaskTable } from "../../task/table.ts";
 import { statusprompt } from "../../constant/status-prompt.ts";
-import { consola } from "consola";
+import { NoTaskFound } from "../../constant/NoTaskFound.ts";
 
 export const filterTasksByStatus = async (): Promise<void> => {
   const tasks = await readTask();
 
   if (tasks === undefined) {
-    consola.info("No tasks found");
+    NoTaskFound();
     return;
   }
 

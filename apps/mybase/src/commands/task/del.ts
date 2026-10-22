@@ -5,15 +5,17 @@ import { getTaskDir } from "../../constant/app.ts";
 import { deleteTask } from "../../task/deleteTask.ts";
 import { readTask } from "../../task/readTask.ts";
 import { ExitCode } from "../../constant/exit-code.ts";
+import { NoTaskFound } from "../../constant/NoTaskFound.ts";
 
 export const del = async (): Promise<void> => {
   try {
     const taskFiles = await readTask();
 
     if (taskFiles === undefined) {
-      consola.info("No tasks found");
+      NoTaskFound();
       return;
     }
+
     const choices = [];
 
     for (const data of taskFiles) {

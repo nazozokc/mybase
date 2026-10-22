@@ -5,11 +5,17 @@ import { select, input } from "@inquirer/prompts";
 import { tagChangeAction } from "./edit.ts";
 import consola from "consola";
 import { TaskSchemaCreate } from "../../../task/type.ts";
+import { NoTaskFound } from "../../../constant/NoTaskFound.ts";
 
 export const edit = async (): Promise<void> => {
   try {
     const taskDir = await getTaskDir();
     const files = await readdir(taskDir);
+
+    if (files === undefined) {
+      NoTaskFound();
+      return;
+    }
     const choices = [];
 
     for (const file of files) {
