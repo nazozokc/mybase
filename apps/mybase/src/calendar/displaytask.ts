@@ -7,6 +7,12 @@ export const displayTasksForMonth = async (
   month: string,
 ): Promise<void> => {
   const tasks = await readTask();
+
+  if (tasks === undefined) {
+    consola.info("No tasks found");
+    return;
+  }
+
   const table = new Table({
     head: ["title", "detail", "dueDate", "tag", "priority", "status"],
   });

@@ -9,6 +9,11 @@ import { ExitCode } from "../../constant/exit-code.ts";
 export const del = async (): Promise<void> => {
   try {
     const taskFiles = await readTask();
+
+    if (taskFiles === undefined) {
+      consola.info("No tasks found");
+      return;
+    }
     const choices = [];
 
     for (const data of taskFiles) {

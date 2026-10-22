@@ -6,6 +6,7 @@ import type { Task } from "../../task/type.ts";
 import { join } from "node:path";
 import { getTaskDir } from "../../constant/app.ts";
 import { writeFile } from "node:fs/promises";
+import { consola } from "consola";
 
 export const tagdel = async (): Promise<void> => {
   const choices = await TaskTagRead();
@@ -17,6 +18,11 @@ export const tagdel = async (): Promise<void> => {
   const saves = choices.filter((sel) => !selected.includes(sel));
 
   const readallTask = await readTask();
+
+  if (readallTask === undefined) {
+    consola.info("No tasks found");
+    return;
+  }
   for (const readtask of readallTask) {
     const tagdelete = readtask.tag.filter((tag) => !selected.includes(tag));
     const task: Task = {

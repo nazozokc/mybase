@@ -6,6 +6,11 @@ import { readTask } from "./readTask.ts";
 export const displayTaskTable = async (tasks?: Task[]): Promise<void> => {
   const taskList = tasks ?? (await readTask());
 
+  if (taskList === undefined) {
+    consola.info("No task found");
+    return;
+  }
+
   if (tasks !== undefined) {
     if (tasks.length === 0) {
       consola.info("No tasks found");
