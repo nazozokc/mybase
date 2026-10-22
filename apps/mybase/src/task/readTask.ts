@@ -4,7 +4,7 @@ import { mkdir, readFile, readdir, access } from "node:fs/promises";
 import { join } from "node:path";
 import consola from "consola";
 
-export const readTask = async (): Promise<Task[] | undefined> => {
+export const readTask = async (): Promise<Task[]> => {
   const taskDir = await getTaskDir();
 
   try {
@@ -14,10 +14,6 @@ export const readTask = async (): Promise<Task[] | undefined> => {
   }
 
   const files = await readdir(taskDir);
-
-  if (files.length === 0) {
-    return undefined;
-  }
 
   const tasks = [];
 

@@ -11,11 +11,6 @@ export const del = async (): Promise<void> => {
   try {
     const taskFiles = await readTask();
 
-    if (taskFiles === undefined) {
-      NoTaskFound();
-      return;
-    }
-
     const choices = [];
 
     for (const data of taskFiles) {
