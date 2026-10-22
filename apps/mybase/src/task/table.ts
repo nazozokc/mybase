@@ -4,16 +4,15 @@ import { type Task } from "./type.ts";
 import { readTask } from "./readTask.ts";
 
 export const displayTaskTable = async (tasks?: Task[]): Promise<void> => {
-  const taskList = tasks ?? (await readTask());
-
-  if (taskList === undefined) {
-    consola.info("No task found");
-    return;
-  }
+  let taskList;
 
   if (tasks !== undefined) {
-    if (tasks.length === 0) {
-      consola.info("No tasks found");
+    taskList = tasks;
+  } else {
+    taskList = await readTask();
+
+    if (taskList === undefined) {
+      return;
     }
   }
 
