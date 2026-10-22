@@ -9,11 +9,13 @@ export const displayTaskTable = async (tasks?: Task[]): Promise<void> => {
   if (tasks !== undefined) {
     taskList = tasks;
   } else {
-    taskList = await readTask();
+    const task = await readTask();
 
-    if (taskList === undefined) {
+    if (task === undefined) {
       return;
     }
+
+    taskList = task;
   }
 
   const table = new Table({
