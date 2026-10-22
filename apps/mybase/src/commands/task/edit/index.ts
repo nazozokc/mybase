@@ -119,6 +119,9 @@ export const edit = async (): Promise<void> => {
       }
     }
   } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      throw consola.info("No found task");
+    }
     consola.error(error);
   }
 };

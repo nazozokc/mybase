@@ -71,6 +71,9 @@ export const searchString = async (searchTerm: string): Promise<void> => {
                 consola.log(diaryFilePath);
                 consola.log(diaryContent);
               }
+            } else {
+              consola.error("No markdown file");
+              continue;
             }
           }
         }
