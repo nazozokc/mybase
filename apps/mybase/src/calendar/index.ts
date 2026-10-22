@@ -11,7 +11,7 @@ export const calendar = async (
     const now = new Date();
     const displayYear = year ?? now.getFullYear();
     const displayMonth =
-      month !== undefined && month >= 12 ? month - 1 : now.getMonth();
+      month !== undefined && month <= 12 ? month - 1 : now.getMonth();
 
     const firstDayOfMonth = new Date(displayYear, displayMonth, 1).getDay();
     const daysInMonth = new Date(displayYear, displayMonth + 1, 0).getDate();
