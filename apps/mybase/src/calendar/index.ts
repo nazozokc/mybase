@@ -9,8 +9,7 @@ export const calendar = async (
 ): Promise<void> => {
   try {
     const now = new Date();
-    const displayYear =
-      year !== undefined && year >= 12 ? year : now.getFullYear();
+    const displayYear = year ?? now.getFullYear();
     const displayMonth =
       month !== undefined && month >= 12 ? month - 1 : now.getMonth();
 
