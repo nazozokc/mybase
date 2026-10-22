@@ -42,10 +42,5 @@ export const readTask = async (): Promise<Task[]> => {
 
     tasks.push(result.data);
   }
-
-  try {
-    return tasks;
-  } catch (error) {
-    throw error;
-  }
+  return tasks;
 };
