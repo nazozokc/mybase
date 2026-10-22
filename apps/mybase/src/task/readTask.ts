@@ -6,16 +6,19 @@ import consola from "consola";
 
 export const readTask = async (): Promise<Task[] | undefined> => {
   const taskDir = await getTaskDir();
+
   try {
     await access(taskDir);
   } catch (error) {
     await mkdir(taskDir, { recursive: true });
   }
+
   const files = await readdir(taskDir);
 
-  if (files === undefined) {
+  if (files.length === 0) {
     return undefined;
   }
+
   const tasks = [];
 
   for (const file of files) {
