@@ -4,13 +4,6 @@ import { type Task } from "./type.ts";
 import { readTask } from "./readTask.ts";
 
 export const displayTaskTable = async (tasks?: Task[]): Promise<void> => {
-  try {
-    await readTask();
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-      throw consola.info("No found task");
-    }
-  }
   const taskList = tasks ?? (await readTask());
 
   const table = new Table({
