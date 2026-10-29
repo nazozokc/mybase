@@ -8,6 +8,7 @@ export const addNote = async (
   filename: string,
   books: string,
 ): Promise<void> => {
+  if (/[\/\\.]/.test(filename)) return;
   const noteDir = await getNoteDir();
   await mkdir(noteDir, { recursive: true });
   const path = join(noteDir, books, `${filename}.md`);

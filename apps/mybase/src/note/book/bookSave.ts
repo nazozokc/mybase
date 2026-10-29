@@ -1,17 +1,11 @@
 import consola from "consola";
 import { getNoteDir, getRootDir } from "../../constant/app.ts";
-import {
-  mkdir,
-  rename,
-  readFile,
-  writeFile,
-  access,
-  constants,
-} from "node:fs/promises";
+import { mkdir, rename, readFile, writeFile, access } from "node:fs/promises";
 import { join } from "node:path";
 
 export const bookSave = async (filename: string): Promise<void> => {
   try {
+    if (/[\/\\.]/.test(filename)) return;
     const noteDir = await getNoteDir();
     const rootDir = await getRootDir();
     const bookJsonDir = join(rootDir, "book.json");
