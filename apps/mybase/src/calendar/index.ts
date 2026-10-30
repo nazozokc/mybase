@@ -12,12 +12,10 @@ export const calendar = async (
     const displayYear = year ?? now.getFullYear();
     if (month !== undefined && (month < 1 || month > 12)) {
       consola.error("No months");
+      return;
     }
 
-    const displayMonth =
-      month !== undefined && (month < 1 || month > 12)
-        ? month - 1
-        : now.getMonth();
+    const displayMonth = month !== undefined ? month - 1 : now.getMonth();
 
     const firstDayOfMonth = new Date(displayYear, displayMonth, 1).getDay();
     const daysInMonth = new Date(displayYear, displayMonth + 1, 0).getDate();
