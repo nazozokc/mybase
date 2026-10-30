@@ -30,6 +30,7 @@ export const bookSave = async (filename: string): Promise<void> => {
     if (!books.includes(filename)) {
       books.push(filename);
     }
+
     const tmpPath = join(rootDir, "book.json.tmp");
     const FilePath = join(rootDir, "book.json");
     await writeFile(tmpPath, JSON.stringify(books, null, 2), "utf-8");
