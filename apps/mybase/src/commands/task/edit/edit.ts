@@ -1,7 +1,9 @@
 import { input, select, checkbox } from "@inquirer/prompts";
 import { TaskTagSave, type TagType } from "../../../task/tags/TaskTagSave.ts";
-import { TaskTagRead } from "../../../task/tags/TaskTagRead.ts";
 import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+import { getRootDir } from "../../../constant/app.ts";
+import { TaskTagRead } from "../../../task/tags/TaskTagRead.ts";
 import type { Task } from "../../../task/type.ts";
 
 export const tagChangeAction = async (filePath: string): Promise<TagType> => {
@@ -26,25 +28,21 @@ export const tagChangeAction = async (filePath: string): Promise<TagType> => {
       break;
 
     case "select":
-      const availableTags = await TaskTagRead();
+      const avalaibleTags = await TaskTagRead();
+      const readTaskFile = await readFile(filePath, "utf-8");
+      const parsed: Task = JSON.parse(readTaskFile);
       const choices = [];
-      for (const tag of availableTags) {
-        const readfile = await readFile(filePath, "utf-8");
-        const parsed: Task = JSON.parse(readfile);
-        for (const tagFor of parsed.tag) {
-          if (tag === tagFor) {
-            choices.push({
-              tag,
-              checked: true,
-            });
-          } else {
-            choices.push(tag);
-          }
-        }
-      }
+
+      const includetags = avalaibleTags.map((tag) => ({
+        name: tag,
+        value: tag,
+        checked: parsed.tag.includes(tag),
+      }));
+
+      choices.push(...includetags);
 
       const selected = await checkbox({
-        message: "select tags",
+        message: "checked tags",
         choices,
         validate: (selected) => {
           if (selected.length === 0) {
@@ -55,17 +53,8 @@ export const tagChangeAction = async (filePath: string): Promise<TagType> => {
         },
       });
 
-      const selectedTags = selected.map((choice) => {
-        if (typeof choice === "string") {
-          return choice;
-        }
+      tags.push(...selected);
 
-        // checked以外のプロパティを取り出す
-        const { checked, ...rest } = choice;
-        return rest.tag;
-      });
-
-      tags.push(...selectedTags);
       break;
   }
 
