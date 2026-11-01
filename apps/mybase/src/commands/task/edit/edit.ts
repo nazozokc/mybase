@@ -28,12 +28,12 @@ export const tagChangeAction = async (filePath: string): Promise<TagType> => {
       break;
 
     case "select":
-      const avalaibleTags = await TaskTagRead();
+      const availableTags = await TaskTagRead();
       const readTaskFile = await readFile(filePath, "utf-8");
       const parsed: Task = JSON.parse(readTaskFile);
       const choices = [];
 
-      const includetags = avalaibleTags.map((tag) => ({
+      const includetags = availableTags.map((tag) => ({
         name: tag,
         value: tag,
         checked: parsed.tag.includes(tag),
