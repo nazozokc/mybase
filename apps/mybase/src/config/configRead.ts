@@ -11,9 +11,7 @@ const defaultConfig: ConfigType = {
 
 export const readConfig = async (): Promise<ConfigType> => {
   try {
-    const ConfigFileName = CONFIG_DIR_NAME;
-
-    const configFileContent = await readFile(ConfigFileName, "utf-8");
+    const configFileContent = await readFile(CONFIG_DIR_NAME, "utf-8");
     const parsedConfig = ConfigSchema.safeParse(JSON.parse(configFileContent));
 
     if (!parsedConfig.success) {
@@ -26,6 +24,7 @@ export const readConfig = async (): Promise<ConfigType> => {
       consola.error(
         "read config is default config, fix your config file early",
       );
+      return defaultConfig;
     }
 
     return parsedConfig.data;
