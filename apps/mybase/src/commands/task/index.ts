@@ -1,5 +1,5 @@
 import type { Command } from "gunshi";
-import { add } from "./add.ts";
+import { add } from "./add/index.ts";
 import { del } from "./del.ts";
 import { priority } from "./priority.ts";
 import { edit } from "./edit/index.ts";
