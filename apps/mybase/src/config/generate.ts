@@ -12,16 +12,14 @@ const defaultSchema: ConfigType = {
 export const generateConfig = async (): Promise<void> => {
   try {
     await access(CONFIG_DIR);
-  } catch (error) {
     consola.info("Already make file");
-    return;
-  }
-
-  try {
-    await mkdir(CONFIG_DIR, { recursive: true });
-    const stringify = JSON.stringify(defaultSchema, null, 2);
-    await writeFile(CONFIG_DIR_NAME, stringify, "utf-8");
   } catch (error) {
-    consola.error(error);
+    try {
+      await mkdir(CONFIG_DIR, { recursive: true });
+      const stringify = JSON.stringify(defaultSchema, null, 2);
+      await writeFile(CONFIG_DIR_NAME, stringify, "utf-8");
+    } catch (error) {
+      consola.error(error);
+    }
   }
 };
